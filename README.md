@@ -1,6 +1,6 @@
 # Cloudflare Full-Stack React Starter
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/mikeschlottig/leverage-intel-enterprise-data-solutions)
 
 A production-ready, type-safe full-stack application template powered by Cloudflare Workers (API backend) and Pages (React frontend). Built with modern tools including Vite, shadcn/ui, Tailwind CSS, Hono, TanStack Query, and React Router. Perfect for rapid development of scalable web apps.
 
@@ -121,7 +121,7 @@ Deploy to Cloudflare Pages + Workers with one command:
 
 Uses `assets` config for SPA routing + API proxying.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/mikeschlottig/leverage-intel-enterprise-data-solutions)
 
 **Deploy Button**: Click above to instantly deploy to your Cloudflare account!
 
