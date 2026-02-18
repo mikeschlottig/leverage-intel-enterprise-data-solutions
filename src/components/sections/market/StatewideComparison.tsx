@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { cityData } from "@/lib/market-data";
+import { cityData, CityStats } from "@/lib/market-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -15,11 +15,40 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import { Building2, DollarSign, Users } from "lucide-react";
+import { Building2, DollarSign, Users, LucideIcon, AlertCircle } from "lucide-react";
 const COLORS = ["#3b82f6", "#6366f1", "#10b981", "#f59e0b", "#f43f5e", "#8b5cf6"];
+interface StatCardProps {
+  title: string;
+  value: string;
+  icon: LucideIcon;
+  color: string;
+}
+function StatCard({ title, value, icon: Icon, color }: StatCardProps) {
+  return (
+    <Card className="border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{title}</p>
+          <Icon className={`h-4 w-4 ${color}`} />
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p className="text-xl font-bold">{value}</p>
+      </CardContent>
+    </Card>
+  );
+}
 export function StatewideComparison() {
-  const [selectedCityId, setSelectedCityId] = useState("southern-oregon");
+  const [selectedCityId, setSelectedCityId] = useState<string>("southern-oregon");
   const currentCity = useMemo(() => cityData[selectedCityId], [selectedCityId]);
+  if (!currentCity) {
+    return (
+      <div className="p-12 text-center bg-accent rounded-3xl flex flex-col items-center gap-4">
+        <AlertCircle className="w-12 h-12 text-destructive" />
+        <p className="text-muted-foreground">Regional data could not be retrieved. Please select another city.</p>
+      </div>
+    );
+  }
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div className="flex flex-wrap gap-2">
@@ -29,7 +58,7 @@ export function StatewideComparison() {
             variant={selectedCityId === city.id ? "default" : "outline"}
             onClick={() => setSelectedCityId(city.id)}
             size="sm"
-            className="rounded-full px-6"
+            className="rounded-full px-6 transition-all"
           >
             {city.name}
           </Button>
@@ -69,17 +98,19 @@ export function StatewideComparison() {
                   dataKey="name"
                   type="category"
                   width={100}
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 12, fill: 'currentColor' }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip
-                  cursor={{ fill: "transparent" }}
+                  cursor={{ fill: "hsl(var(--primary) / 0.05)" }}
                   contentStyle={{
                     borderRadius: "8px",
                     border: "none",
                     boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
                   }}
+                  itemStyle={{ color: '#000' }}
                 />
                 <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={24} />
               </BarChart>
@@ -101,33 +132,19 @@ export function StatewideComparison() {
                   outerRadius={80}
                   paddingAngle={5}
                   dataKey="value"
+                  stroke="none"
                 >
                   {currentCity.serviceFocus.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend verticalAlign="bottom" align="center" />
+                <Legend verticalAlign="bottom" align="center" iconType="circle" />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
     </div>
-  );
-}
-function StatCard({ title, value, icon: Icon, color }: any) {
-  return (
-    <Card className="border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{title}</p>
-          <Icon className={`h-4 w-4 ${color}`} />
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-xl font-bold">{value}</p>
-      </CardContent>
-    </Card>
   );
 }

@@ -10,7 +10,7 @@ export interface Startup {
   description: string;
   headquarter: string;
 }
-export const startupData: Startup[] = [
+const companies: Startup[] = [
   { id: "1", rank: 1, company: "Neon", category: "Data", founded: 2021, score: 98, llmSentiment: 96, docsQuality: 98, description: "Serverless Postgres with instant branching and bottomless storage.", headquarter: "San Francisco" },
   { id: "2", rank: 2, company: "Resend", category: "DevTools", founded: 2022, score: 97, llmSentiment: 95, docsQuality: 99, description: "The email infrastructure for developers.", headquarter: "New York" },
   { id: "3", rank: 3, company: "Pinecone", category: "AI", founded: 2019, score: 96, llmSentiment: 98, docsQuality: 94, description: "Vector database for high-performance AI applications.", headquarter: "New York" },
@@ -31,25 +31,32 @@ export const startupData: Startup[] = [
   { id: "18", rank: 18, company: "Fly.io", category: "Cloud", founded: 2017, score: 81, llmSentiment: 89, docsQuality: 86, description: "Deploy app servers close to users.", headquarter: "Chicago" },
   { id: "19", rank: 19, company: "Render", category: "Cloud", founded: 2018, score: 80, llmSentiment: 86, docsQuality: 85, description: "Cloud platform to host any app.", headquarter: "San Francisco" },
   { id: "20", rank: 20, company: "Tally", category: "FinTech", founded: 2020, score: 79, llmSentiment: 82, docsQuality: 83, description: "Simplest way to create forms.", headquarter: "Ghent" },
-  // ... Padding remaining 30 entries with similar realistic data for full 50
-  ...Array.from({ length: 30 }, (_, i) => {
-    const categories: ("AI" | "FinTech" | "DevTools" | "Cloud" | "Security" | "Data")[] = ["AI", "FinTech", "DevTools", "Cloud", "Security", "Data"];
-    const category = categories[i % categories.length];
-    return {
-      id: (i + 21).toString(),
-      rank: i + 21,
-      company: `Startup_${i + 21}`,
-      category,
-      founded: 2018 + (i % 6),
-      score: 78 - i,
-      llmSentiment: 70 + (Math.random() * 25),
-      docsQuality: 65 + (Math.random() * 30),
-      description: `Description for startup number ${i + 21} focusing on ${category} solutions.`,
-      headquarter: "International"
-    };
-  })
 ];
-export const categoryCounts = startupData.reduce((acc: any[], item) => {
+const names = ["Axiom", "Bento", "Cipher", "Delta", "Echo", "Flux", "Grit", "Helix", "Ion", "Jolt", "Koda", "Lume", "Moxie", "Nova", "Onyx", "Pulse", "Quark", "Rift", "Sync", "Tess", "Ursa", "Vex", "Wisp", "Xenon", "Yield", "Zest", "Aura", "Bolt", "Core", "Dune"];
+const categories: ("AI" | "FinTech" | "DevTools" | "Cloud" | "Security" | "Data")[] = ["AI", "FinTech", "DevTools", "Cloud", "Security", "Data"];
+// Deterministic padding to reach 50 entries
+const paddedData: Startup[] = Array.from({ length: 30 }, (_, i) => {
+  const index = i + 21;
+  const category = categories[i % categories.length];
+  // Deterministic values between 65 and 95
+  const sentiment = 65 + ((i * 13) % 31);
+  const docs = 70 + ((i * 17) % 26);
+  const score = Math.floor((sentiment + docs) / 2);
+  return {
+    id: index.toString(),
+    rank: index,
+    company: `${names[i]} Systems`,
+    category,
+    founded: 2018 + (i % 6),
+    score,
+    llmSentiment: sentiment,
+    docsQuality: docs,
+    description: `Enterprise-grade ${category} platform focusing on autonomous agentic workflows and machine-to-machine interfaces.`,
+    headquarter: i % 2 === 0 ? "Austin" : "Berlin"
+  };
+});
+export const startupData: Startup[] = [...companies, ...paddedData];
+export const categoryCounts = startupData.reduce((acc: { name: string; value: number }[], item) => {
   const existing = acc.find((a) => a.name === item.category);
   if (existing) {
     existing.value += 1;
