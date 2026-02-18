@@ -2,9 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigationHandler } from "@/hooks/use-navigation-handler";
 export function CTA() {
-  const { handleNavClick } = useNavigationHandler();
   return (
     <section id="contact" className="py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,21 +23,11 @@ export function CTA() {
               Book a strategic data audit today. No fluff, no sales pitch. Just a deep technical review of your existing architecture.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button 
-                size="lg" 
-                variant="secondary" 
-                className="h-14 px-8 text-lg font-bold gap-2 group hover:scale-105 transition-transform text-blue-600" 
-                onClick={(e) => handleNavClick(e, "#contact")}
-              >
+              <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold gap-2 group hover:scale-105 transition-transform">
                 Start the Process
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button 
-                size="lg" 
-                variant="ghost" 
-                className="h-14 px-8 text-lg font-medium gap-2 hover:bg-white/10 text-white" 
-                onClick={(e) => handleNavClick(e, "#contact")}
-              >
+              <Button size="lg" variant="ghost" className="h-14 px-8 text-lg font-medium gap-2 hover:bg-white/10">
                 <Mail className="w-5 h-5" />
                 Speak with an Engineer
               </Button>

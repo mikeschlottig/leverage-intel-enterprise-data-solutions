@@ -2,10 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigationHandler } from "@/hooks/use-navigation-handler";
 import { AnimatedBackground } from "@/components/ui/animated-background";
 export function Hero() {
-  const { handleNavClick } = useNavigationHandler();
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
       <AnimatedBackground />
@@ -27,19 +25,13 @@ export function Hero() {
               We engineer the systemic infrastructure required to turn raw data into your most powerful competitive advantage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
-                className="h-14 px-8 text-lg gap-2 group shadow-lg shadow-blue-500/20" 
-                onClick={(e) => handleNavClick(e, "#contact")}
-              >
+              <Button size="lg" className="h-14 px-8 text-lg gap-2 group shadow-lg shadow-blue-500/20">
                 Get Leverage
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg gap-2 group">
-                <a href="#architecture" onClick={(e) => handleNavClick(e, "#architecture")}>
-                  Our Architecture
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg gap-2 group">
+                Our Architecture
+                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
           </motion.div>
