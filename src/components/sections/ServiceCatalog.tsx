@@ -1,11 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { 
-  Database, Eye, Globe, BarChart3, TrendingUp, FileText, 
-  Link2, Zap, Target, SearchX, MousePointer2, Map 
+  Database, Eye, Globe, BarChart3, TrendingUp, FileText,
+  Link2, Zap, Target, SearchX, MousePointer2, Map
 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { Button } from "@/components/ui/button";
+import { useLeadCapture } from "@/hooks/use-lead-capture";
 const services = [
   {
     title: "Knowledge Base Formation",
@@ -98,6 +101,8 @@ const focusAreas = [
   }
 ];
 export function ServiceCatalog() {
+  const onOpenLeadCapture = useLeadCapture((s) => s.onOpen);
+
   return (
     <section className="py-24 md:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -126,6 +131,16 @@ export function ServiceCatalog() {
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {s.desc}
                   </p>
+                  <div className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="p-0 h-auto text-blue-600 hover:text-blue-700 hover:bg-transparent font-semibold gap-1"
+                      onClick={onOpenLeadCapture}
+                    >
+                      Get Started <ArrowRight className="w-3 h-3" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

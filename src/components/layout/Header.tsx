@@ -4,6 +4,7 @@ import { Menu, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useLeadCapture } from "@/hooks/use-lead-capture";
 import { ThemeToggle } from "@/components/ThemeToggle";
 const navLinks = [
   { name: "Services", href: "/services", isPage: true },
@@ -15,6 +16,8 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const onOpenLeadCapture = useLeadCapture((s) => s.onOpen);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -22,8 +25,12 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isPage: boolean) => {
     if (isPage) return;
+    if (href === "#contact") {
+      return onOpenLeadCapture();
+    }
     e.preventDefault();
     if (location.pathname !== "/") {
       navigate("/" + href);
@@ -85,8 +92,8 @@ export function Header() {
           ))}
           <div className="h-6 w-px bg-border mx-2" />
           <ThemeToggle className="relative top-0 right-0 h-9 w-9" />
-          <Button asChild size="sm" className="ml-2">
-            <a href="#contact" onClick={(e) => handleNavClick(e, "#contact", false)}>Get Leverage</a>
+          <Button size="sm" className="ml-2" onClick={onOpenLeadCapture}>
+            Get Leverage
           </Button>
         </nav>
         {/* Mobile Navigation */}
@@ -122,8 +129,8 @@ export function Header() {
                   </a>
                 )
               ))}
-              <Button asChild className="mt-4">
-                <a href="#contact" onClick={(e) => handleNavClick(e, "#contact", false)}>Get Leverage</a>
+              <Button className="mt-4" onClick={onOpenLeadCapture}>
+                Get Leverage
               </Button>
             </SheetContent>
           </Sheet>

@@ -3,10 +3,13 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useLeadCapture } from "@/hooks/use-lead-capture";
 import { AnimatedBackground } from "@/components/ui/animated-background";
 export function Hero() {
   const location = useLocation();
   const navigate = useNavigate();
+  const onOpenLeadCapture = useLeadCapture((s) => s.onOpen);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     if (location.pathname !== "/") {
@@ -47,11 +50,9 @@ export function Hero() {
               We engineer the systemic infrastructure required to turn raw data into your most powerful competitive advantage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="h-14 px-8 text-lg gap-2 group shadow-lg shadow-blue-500/20">
-                <a href="#contact" onClick={(e) => handleNavClick(e, "#contact")}>
-                  Get Leverage
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
+              <Button size="lg" className="h-14 px-8 text-lg gap-2 group shadow-lg shadow-blue-500/20" onClick={onOpenLeadCapture}>
+                Get Leverage
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg gap-2 group">
                 <a href="#architecture" onClick={(e) => handleNavClick(e, "#architecture")}>

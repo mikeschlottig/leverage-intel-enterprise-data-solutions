@@ -12,6 +12,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import { Toaster } from '@/components/ui/sonner';
 import '@/index.css'
+import { LeadCaptureSheet } from '@/components/LeadCaptureSheet'
 import { HomePage } from '@/pages/HomePage'
 import { ServicesPage } from '@/pages/ServicesPage'
 import { MarketAnalysisPage } from '@/pages/MarketAnalysisPage'
@@ -38,6 +39,7 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
         <RouterProvider router={router} />
+        <LeadCaptureSheet />
         <Toaster richColors closeButton position="bottom-right" />
       </ErrorBoundary>
     </QueryClientProvider>

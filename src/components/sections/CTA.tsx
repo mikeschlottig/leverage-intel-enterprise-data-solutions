@@ -2,10 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useLeadCapture } from "@/hooks/use-lead-capture";
 import { Button } from "@/components/ui/button";
 export function CTA() {
   const location = useLocation();
   const navigate = useNavigate();
+  const onOpenLeadCapture = useLeadCapture((s) => s.onOpen);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     if (location.pathname !== "/") {
@@ -45,17 +48,13 @@ export function CTA() {
               Book a strategic data audit today. No fluff, no sales pitch. Just a deep technical review of your existing architecture.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button asChild size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold gap-2 group hover:scale-105 transition-transform text-blue-600">
-                <a href="#process" onClick={(e) => handleNavClick(e, "#process")}>
-                  Start the Process
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
+              <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold gap-2 group hover:scale-105 transition-transform text-blue-600" onClick={onOpenLeadCapture}>
+                Start the Process
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button asChild size="lg" variant="ghost" className="h-14 px-8 text-lg font-medium gap-2 hover:bg-white/10 text-white">
-                <a href="mailto:hello@leverage-intel.com">
-                  <Mail className="w-5 h-5" />
-                  Speak with an Engineer
-                </a>
+              <Button size="lg" variant="ghost" className="h-14 px-8 text-lg font-medium gap-2 hover:bg-white/10 text-white" onClick={onOpenLeadCapture}>
+                <Mail className="w-5 h-5" />
+                Speak with an Engineer
               </Button>
             </div>
           </div>
