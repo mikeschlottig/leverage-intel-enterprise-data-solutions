@@ -1,25 +1,26 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  ZAxis,
+import { 
+  ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell, 
+  Tooltip, 
+  ScatterChart, 
+  Scatter, 
+  XAxis, 
+  YAxis, 
+  ZAxis, 
   CartesianGrid,
   Legend
 } from "recharts";
 import { startupData, categoryCounts } from "@/lib/api-research-data";
-import { Cpu, Layers, Signal } from "lucide-react";
+import { Info, Cpu, Layers, Signal } from "lucide-react";
 const COLORS = ["#3b82f6", "#6366f1", "#818cf8", "#4f46e5", "#3730a3", "#1e1b4b"];
 export function DashboardTab() {
   return (
     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      {/* High-Level Info Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="bg-slate-50/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800">
           <CardHeader className="flex flex-row items-center gap-4 pb-2">
@@ -59,12 +60,13 @@ export function DashboardTab() {
         </Card>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Pie Chart */}
         <Card className="border-slate-200 dark:border-slate-800 shadow-soft">
           <CardHeader>
             <CardTitle className="text-lg font-bold">Category Distribution</CardTitle>
           </CardHeader>
           <CardContent className="h-[350px]">
-            <ResponsiveContainer width="100%" height="100%" key="pie-chart-container">
+            <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={categoryCounts}
@@ -74,64 +76,45 @@ export function DashboardTab() {
                   outerRadius={120}
                   paddingAngle={5}
                   dataKey="value"
-                  stroke="none"
                 >
                   {categoryCounts.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--slate-950, 222 47% 4%))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    color: '#fff'
-                  }} 
-                />
-                <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
+                <Tooltip />
+                <Legend />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        {/* Scatter Plot */}
         <Card className="border-slate-200 dark:border-slate-800 shadow-soft">
           <CardHeader>
             <CardTitle className="text-lg font-bold">Sentiment vs Documentation</CardTitle>
           </CardHeader>
           <CardContent className="h-[350px]">
-            <ResponsiveContainer width="100%" height="100%" key="scatter-chart-container">
+            <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
-                <XAxis
-                  type="number"
-                  dataKey="docsQuality"
-                  name="Docs Quality"
-                  unit="%"
+                <XAxis 
+                  type="number" 
+                  dataKey="docsQuality" 
+                  name="Docs Quality" 
+                  unit="%" 
                   domain={[60, 100]}
                   fontSize={12}
-                  tick={{ fill: 'currentColor' }}
-                  axisLine={{ stroke: 'currentColor', opacity: 0.2 }}
                 />
-                <YAxis
-                  type="number"
-                  dataKey="llmSentiment"
-                  name="LLM Sentiment"
-                  unit="%"
+                <YAxis 
+                  type="number" 
+                  dataKey="llmSentiment" 
+                  name="LLM Sentiment" 
+                  unit="%" 
                   domain={[60, 100]}
                   fontSize={12}
-                  tick={{ fill: 'currentColor' }}
-                  axisLine={{ stroke: 'currentColor', opacity: 0.2 }}
                 />
-                <ZAxis type="number" range={[100, 600]} />
-                <Tooltip 
-                  cursor={{ strokeDasharray: '3 3' }} 
-                  contentStyle={{ 
-                    backgroundColor: 'rgba(15, 23, 42, 0.95)', 
-                    borderRadius: '8px', 
-                    border: 'none',
-                    color: '#fff'
-                  }}
-                />
-                <Scatter name="Startups" data={startupData} fill="#3b82f6" fillOpacity={0.6} />
+                <ZAxis type="number" range={[50, 400]} />
+                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                <Scatter name="Startups" data={startupData} fill="#3b82f6" />
               </ScatterChart>
             </ResponsiveContainer>
           </CardContent>

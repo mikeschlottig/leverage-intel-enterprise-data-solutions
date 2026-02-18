@@ -33,13 +33,7 @@ export function Header() {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="bg-primary p-1.5 rounded-lg">
-            <Database className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <span className="text-xl font-bold tracking-tight">Leverage Intel</span>
-        </Link>
-        {/* Desktop Navigation */}
+        {/* Left: Primary Nav Links */}
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             link.isPage ? (
@@ -64,12 +58,32 @@ export function Header() {
               </a>
             )
           ))}
-          <div className="h-6 w-px bg-border mx-2" />
+        </nav>
+        {/* Center: Branding */}
+        <Link to="/" className="flex items-center gap-2 group md:absolute md:left-1/2 md:-translate-x-1/2">
+          <div className="bg-primary p-1.5 rounded-lg">
+            <Database className="w-6 h-6 text-primary-foreground" />
+          </div>
+          <span className="text-xl font-bold tracking-tight">Leverage Intel</span>
+        </Link>
+        {/* Right: Tools, API Hubs, CTA */}
+        <div className="hidden md:flex items-center gap-6">
           <ThemeToggle className="relative top-0 right-0 h-9 w-9" />
+          <Link
+            to="/api-hubs"
+            className={cn(
+              "text-sm font-bold uppercase tracking-tighter px-3 py-1.5 rounded-md transition-all",
+              location.pathname === "/api-hubs" 
+                ? "bg-indigo-600 text-white shadow-glow" 
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            API Hubs
+          </Link>
           <Button size="sm" className="ml-2" onClick={(e) => handleNavClick(e, "#contact")}>
             Get Leverage
           </Button>
-        </nav>
+        </div>
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center gap-2">
           <ThemeToggle className="relative top-0 right-0 h-9 w-9" />
@@ -103,6 +117,15 @@ export function Header() {
                   </a>
                 )
               ))}
+              <Link
+                to="/api-hubs"
+                className={cn(
+                  "text-lg font-bold transition-colors",
+                  location.pathname === "/api-hubs" ? "text-indigo-600" : "text-foreground"
+                )}
+              >
+                API Hubs
+              </Link>
               <Button className="mt-4" onClick={(e) => handleNavClick(e, "#contact")}>
                 Get Leverage
               </Button>

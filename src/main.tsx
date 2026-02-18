@@ -16,6 +16,7 @@ import { LeadCaptureSheet } from '@/components/LeadCaptureSheet'
 import { HomePage } from '@/pages/HomePage'
 import { ServicesPage } from '@/pages/ServicesPage'
 import { MarketAnalysisPage } from '@/pages/MarketAnalysisPage'
+import { ApiHubsPage } from '@/pages/ApiHubsPage'
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
   {
     path: "/digital-agency",
     element: <MarketAnalysisPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/api-hubs",
+    element: <ApiHubsPage />,
     errorElement: <RouteErrorBoundary />,
   },
 ]);
