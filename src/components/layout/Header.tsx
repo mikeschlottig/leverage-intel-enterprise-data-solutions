@@ -4,6 +4,7 @@ import { Menu, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/ThemeToggle";
 const navLinks = [
   { name: "Services", href: "/services", isPage: true },
   { name: "Process", href: "#process", isPage: false },
@@ -58,7 +59,7 @@ export function Header() {
           <span className="text-xl font-bold tracking-tight">Leverage Intel</span>
         </Link>
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             link.isPage ? (
               <Link
@@ -66,7 +67,7 @@ export function Header() {
                 to={link.href}
                 className={cn(
                   "text-sm font-medium transition-colors",
-                  location.pathname === link.href ? "text-blue-600" : "text-muted-foreground hover:text-foreground"
+                  location.pathname === link.href ? "text-blue-600 dark:text-blue-400" : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {link.name}
@@ -82,12 +83,15 @@ export function Header() {
               </a>
             )
           ))}
-          <Button asChild size="sm">
+          <div className="h-6 w-px bg-border mx-2" />
+          <ThemeToggle className="relative top-0 right-0 h-9 w-9" />
+          <Button asChild size="sm" className="ml-2">
             <a href="#contact" onClick={(e) => handleNavClick(e, "#contact", false)}>Get Leverage</a>
           </Button>
         </nav>
         {/* Mobile Navigation */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle className="relative top-0 right-0 h-9 w-9" />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -102,7 +106,7 @@ export function Header() {
                     to={link.href}
                     className={cn(
                       "text-lg font-medium transition-colors",
-                      location.pathname === link.href ? "text-blue-600" : "text-foreground"
+                      location.pathname === link.href ? "text-blue-600 dark:text-blue-400" : "text-foreground"
                     )}
                   >
                     {link.name}

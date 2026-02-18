@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { cityData, CityStats } from "@/lib/market-data";
+import { cityData } from "@/lib/market-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -61,7 +61,7 @@ export function StatewideComparison() {
             <CardTitle className="text-lg">Common Frameworks (%)</CardTitle>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" key={`frameworks-${selectedCityId}`}>
               <BarChart data={currentCity.frameworks} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.1} />
                 <XAxis type="number" hide />
@@ -91,7 +91,7 @@ export function StatewideComparison() {
             <CardTitle className="text-lg">Service Focus Distribution</CardTitle>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" key={`focus-${selectedCityId}`}>
               <PieChart>
                 <Pie
                   data={currentCity.serviceFocus}

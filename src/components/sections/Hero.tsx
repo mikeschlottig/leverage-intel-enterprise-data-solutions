@@ -1,9 +1,31 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AnimatedBackground } from "@/components/ui/animated-background";
 export function Hero() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/" + href);
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  };
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
       <AnimatedBackground />
@@ -25,13 +47,17 @@ export function Hero() {
               We engineer the systemic infrastructure required to turn raw data into your most powerful competitive advantage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="h-14 px-8 text-lg gap-2 group shadow-lg shadow-blue-500/20">
-                Get Leverage
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Button asChild size="lg" className="h-14 px-8 text-lg gap-2 group shadow-lg shadow-blue-500/20">
+                <a href="#contact" onClick={(e) => handleNavClick(e, "#contact")}>
+                  Get Leverage
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
               </Button>
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg gap-2 group">
-                Our Architecture
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg gap-2 group">
+                <a href="#architecture" onClick={(e) => handleNavClick(e, "#architecture")}>
+                  Our Architecture
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
               </Button>
             </div>
           </motion.div>
