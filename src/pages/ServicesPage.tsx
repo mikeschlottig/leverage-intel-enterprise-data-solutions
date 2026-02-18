@@ -5,6 +5,7 @@ import { ServiceHero } from "@/components/sections/ServiceHero";
 import { ServiceCatalog } from "@/components/sections/ServiceCatalog";
 import { Architecture } from "@/components/sections/Architecture";
 import { CTA } from "@/components/sections/CTA";
+import { Toaster } from "@/components/ui/sonner";
 export function ServicesPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,6 +22,7 @@ export function ServicesPage() {
         <CTA />
       </main>
       <Footer />
+      <Toaster richColors closeButton position="bottom-right" />
     </div>
   );
 }

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, Database } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 const navLinks = [
-  { name: "Services", href: "#services" },
-  { name: "Process", href: "#process" },
-  { name: "Architecture", href: "#architecture" },
+  { name: "Services", href: "/services", isPage: true },
+  { name: "Process", href: "#process", isPage: false },
+  { name: "Architecture", href: "#architecture", isPage: false },
 ];
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -18,8 +20,13 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isPage: boolean) => {
+    if (isPage) return; // Allow normal routing for page links
     e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/" + href);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       const offset = 80;
@@ -52,17 +59,30 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.name}
-            </a>
+            link.isPage ? (
+              <Link
+                key={link.name}
+                to={link.href}
+                className={cn(
+                  "text-sm font-medium transition-colors",
+                  location.pathname === link.href ? "text-blue-600" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href, link.isPage)}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.name}
+              </a>
+            )
           ))}
           <Button asChild size="sm">
-            <a href="#contact" onClick={(e) => handleNavClick(e, "#contact")}>Get Leverage</a>
+            <a href="#contact" onClick={(e) => handleNavClick(e, "#contact", false)}>Get Leverage</a>
           </Button>
         </nav>
         {/* Mobile Navigation */}
@@ -75,17 +95,27 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="flex flex-col gap-6 pt-16">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-lg font-medium text-foreground hover:text-primary transition-colors"
-                >
-                  {link.name}
-                </a>
+                link.isPage ? (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href, link.isPage)}
+                    className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
               <Button asChild className="mt-4">
-                <a href="#contact" onClick={(e) => handleNavClick(e, "#contact")}>Get Leverage</a>
+                <a href="#contact" onClick={(e) => handleNavClick(e, "#contact", false)}>Get Leverage</a>
               </Button>
             </SheetContent>
           </Sheet>
