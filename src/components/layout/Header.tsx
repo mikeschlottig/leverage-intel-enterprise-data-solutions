@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useLeadCapture } from "@/hooks/use-lead-capture";
+import { useNavigationHandler } from "@/hooks/use-navigation-handler";
 import { ThemeToggle } from "@/components/ThemeToggle";
 const navLinks = [
   { name: "Services", href: "/services", isPage: true },
@@ -15,9 +15,7 @@ const navLinks = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const onOpenLeadCapture = useLeadCapture((s) => s.onOpen);
-
+  const { handleNavClick } = useNavigationHandler();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -25,30 +23,6 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isPage: boolean) => {
-    if (isPage) return;
-    if (href === "#contact") {
-      return onOpenLeadCapture();
-    }
-    e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/" + href);
-    } else {
-      const element = document.querySelector(href);
-      if (element) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }
-  };
   return (
     <header
       className={cn(
@@ -92,7 +66,7 @@ export function Header() {
           ))}
           <div className="h-6 w-px bg-border mx-2" />
           <ThemeToggle className="relative top-0 right-0 h-9 w-9" />
-          <Button size="sm" className="ml-2" onClick={onOpenLeadCapture}>
+          <Button size="sm" className="ml-2" onClick={(e) => handleNavClick(e, "#contact")}>
             Get Leverage
           </Button>
         </nav>
@@ -129,7 +103,7 @@ export function Header() {
                   </a>
                 )
               ))}
-              <Button className="mt-4" onClick={onOpenLeadCapture}>
+              <Button className="mt-4" onClick={(e) => handleNavClick(e, "#contact")}>
                 Get Leverage
               </Button>
             </SheetContent>

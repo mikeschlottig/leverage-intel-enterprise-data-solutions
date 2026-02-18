@@ -12,18 +12,22 @@ export function HomePage() {
   const { hash } = useLocation();
   useEffect(() => {
     if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
+      // Use requestAnimationFrame to ensure DOM is fully ready and heights are calculated
+      const scrollTimer = setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 50); // Small delay to allow hydration/render stable state
+      return () => clearTimeout(scrollTimer);
     } else {
       window.scrollTo(0, 0);
     }

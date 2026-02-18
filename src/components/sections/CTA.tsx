@@ -1,33 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useLeadCapture } from "@/hooks/use-lead-capture";
 import { Button } from "@/components/ui/button";
+import { useNavigationHandler } from "@/hooks/use-navigation-handler";
 export function CTA() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const onOpenLeadCapture = useLeadCapture((s) => s.onOpen);
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/" + href);
-    } else {
-      const element = document.querySelector(href);
-      if (element) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }
-  };
+  const { handleNavClick } = useNavigationHandler();
   return (
     <section id="contact" className="py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,11 +25,21 @@ export function CTA() {
               Book a strategic data audit today. No fluff, no sales pitch. Just a deep technical review of your existing architecture.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold gap-2 group hover:scale-105 transition-transform text-blue-600" onClick={onOpenLeadCapture}>
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="h-14 px-8 text-lg font-bold gap-2 group hover:scale-105 transition-transform text-blue-600" 
+                onClick={(e) => handleNavClick(e, "#contact")}
+              >
                 Start the Process
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button size="lg" variant="ghost" className="h-14 px-8 text-lg font-medium gap-2 hover:bg-white/10 text-white" onClick={onOpenLeadCapture}>
+              <Button 
+                size="lg" 
+                variant="ghost" 
+                className="h-14 px-8 text-lg font-medium gap-2 hover:bg-white/10 text-white" 
+                onClick={(e) => handleNavClick(e, "#contact")}
+              >
                 <Mail className="w-5 h-5" />
                 Speak with an Engineer
               </Button>
