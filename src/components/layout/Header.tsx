@@ -21,23 +21,23 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isPage: boolean) => {
-    if (isPage) return; // Allow normal routing for page links
+    if (isPage) return;
     e.preventDefault();
     if (location.pathname !== "/") {
       navigate("/" + href);
-      return;
-    }
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
     }
   };
   return (
@@ -99,7 +99,10 @@ export function Header() {
                   <Link
                     key={link.name}
                     to={link.href}
-                    className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    className={cn(
+                      "text-lg font-medium transition-colors",
+                      location.pathname === link.href ? "text-blue-600" : "text-foreground"
+                    )}
                   >
                     {link.name}
                   </Link>
