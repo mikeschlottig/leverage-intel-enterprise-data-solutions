@@ -8,6 +8,7 @@ const navLinks = [
   { name: "Services", href: "/services", isPage: true },
   { name: "Process", href: "#process", isPage: false },
   { name: "Architecture", href: "#architecture", isPage: false },
+  { name: "Digital Agency", href: "/digital-agency", isPage: true },
 ];
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

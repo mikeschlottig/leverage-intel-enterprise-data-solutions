@@ -14,6 +14,7 @@ import { Toaster } from '@/components/ui/sonner';
 import '@/index.css'
 import { HomePage } from '@/pages/HomePage'
 import { ServicesPage } from '@/pages/ServicesPage'
+import { MarketAnalysisPage } from '@/pages/MarketAnalysisPage'
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/services",
     element: <ServicesPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/digital-agency",
+    element: <MarketAnalysisPage />,
     errorElement: <RouteErrorBoundary />,
   },
 ]);

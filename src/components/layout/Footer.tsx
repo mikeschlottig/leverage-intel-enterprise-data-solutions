@@ -54,6 +54,7 @@ export function Footer() {
               <li><Link to="/services" className="text-slate-400 hover:text-white transition-colors">Data Engineering</Link></li>
               <li><Link to="/services" className="text-slate-400 hover:text-white transition-colors">AI Infrastructure</Link></li>
               <li><a href="#architecture" onClick={(e) => handleNavClick(e, "#architecture")} className="text-slate-400 hover:text-white transition-colors">Cloud Migration</a></li>
+              <li><Link to="/digital-agency" className="text-slate-400 hover:text-white transition-colors">Market Analysis</Link></li>
               <li><Link to="/services" className="text-slate-400 hover:text-white transition-colors">Predictive Intel</Link></li>
             </ul>
           </div>
